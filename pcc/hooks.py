@@ -120,6 +120,21 @@ app_license = "mit"
 # 	"ToDo": "custom_app.overrides.CustomToDo"
 # }
 # override_doctype_class = {
+#     "Expense Claim": "pcc.hrms_overrides.expense_claim.CustomExpenseClaim"
+# }
+
+# In your custom app's hooks.py
+# doc_events = {
+#     "*": {
+#         "on_load": "pcc.hrms_overrides.expense_claim.override_methods"
+#     }
+# }
+doc_events = {
+	"Expense Request": {
+		"on_update": "pcc.api.setup"
+	}
+}
+# override_doctype_class = {
 #     "Payment Entry": "pcc.overrides.CustomPE"    
 # }
 
@@ -237,5 +252,14 @@ app_license = "mit"
 
 # Custom fields for Sales Invoice
 fixtures = [
-    {"dt": "Custom Field", "filters":[["module", "=", "pcc"]]}
+    "Workflow", 
+    "Workflow State", 
+    "Workflow Action Master",
+    {
+        "dt": "Custom Field",
+        "filters": [
+            ["module", "=", "pcc"]
+        ]
+    }
 ]
+
