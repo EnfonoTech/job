@@ -14,7 +14,10 @@
   "date",
   "company",
   "customer",
-  "customer_name"
+  "customer_name",
+  "section_break_azka",
+  "get_valuation_rate_from",
+  "items"
  ],
  "fields": [
   {
@@ -74,6 +77,23 @@
    "fieldname": "customer_name",
    "fieldtype": "Data",
    "label": "Customer Name"
+  },
+  {
+   "fieldname": "section_break_azka",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "get_valuation_rate_from",
+   "fieldtype": "Select",
+   "label": "Get Valuation Rate From",
+   "options": "\nStock Ledger\nLatest Purchase"
+  },
+  {
+   "depends_on": "eval:doc.get_valuation_rate_from;",
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Job Item Detail"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -94,7 +114,7 @@
    "link_fieldname": "custom_job_record"
   }
  ],
- "modified": "2025-06-05 21:05:04.065813",
+ "modified": "2025-06-06 01:58:40.892839",
  "modified_by": "Administrator",
  "module": "Pcc",
  "name": "Job Record",
