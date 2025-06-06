@@ -39,6 +39,7 @@
    "read_only": 1
   },
   {
+   "fetch_from": "item.stock_uom",
    "fieldname": "uom",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -88,7 +89,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-06-06 02:08:24.247642",
+ "modified": "2025-06-06 12:48:20.491175",
  "modified_by": "Administrator",
  "module": "Pcc",
  "name": "Job Item Detail",
