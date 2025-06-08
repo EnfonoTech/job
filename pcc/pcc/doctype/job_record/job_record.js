@@ -102,6 +102,7 @@ frappe.ui.form.on('Job Item Detail', {
     item: async function (frm, cdt, cdn) {
         let row = locals[cdt][cdn];
         if (!row.item) return;
+        frappe.model.set_value(cdt, cdn, 'quantity', 1);
 
         try {
             let r = await frappe.db.get_value('Item Price', {
@@ -111,6 +112,7 @@ frappe.ui.form.on('Job Item Detail', {
 
             if (r && r.message) {
                 frappe.model.set_value(cdt, cdn, 'rate', r.message.price_list_rate);
+                frappe.model.set_value(cdt, cdn, 'amount', r.message.price_list_rate * row.quantity);
             } else {
                 frappe.model.set_value(cdt, cdn, 'rate', 0);
                 frappe.msgprint(__('No Standard Selling price found for item {0}', [row.item]));
@@ -119,6 +121,24 @@ frappe.ui.form.on('Job Item Detail', {
             console.error('Error fetching price:', err);
             frappe.msgprint(__('Error fetching price for item {0}', [row.item]));
         }
-    }
+    },
+
+    quantity: function (frm, cdt, cdn) {
+        row = locals[cdt][cdn];
+
+        if (row.quantity && row.rate) {
+            frappe.model.set_value(cdt, cdn, "amount", row.quantity * row.rate)
+        }
+        
+    },
+
+    rate: function (frm, cdt, cdn) {
+        row = locals[cdt][cdn];
+
+        if (row.quantity && row.rate) {
+            frappe.model.set_value(cdt, cdn, "amount", row.quantity * row.rate)
+        }
+        
+    },
 });
 
