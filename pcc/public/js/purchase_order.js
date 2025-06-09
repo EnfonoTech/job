@@ -5,7 +5,8 @@ frappe.ui.form.on('Purchase Order', {
                 const r = await frappe.call({
                     method: 'pcc.api.get_remaining_items_from_job',
                     args: {
-                        job_record_id: frm.doc.custom_job_record
+                        job_record_id: frm.doc.custom_job_record,
+                        target_doctype: 'Purchase Order'
                     }
                 });
 

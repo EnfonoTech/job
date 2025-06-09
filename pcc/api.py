@@ -192,23 +192,56 @@ def make_journal_entry(expense_request):
 
 
 @frappe.whitelist()
-def get_remaining_items_from_job(job_record_id):
+def get_remaining_items_from_job(job_record_id, target_doctype):
+    """
+    Get items from Job Record that have not yet been fully pulled into the given target doctype.
+    `target_doctype` must be one of:
+        - 'Purchase Order'
+        - 'Purchase Invoice'
+        - 'Sales Order'
+        - 'Sales Invoice'
+    """
+    if target_doctype not in ['Purchase Order', 'Purchase Invoice', 'Sales Order', 'Sales Invoice']:
+        frappe.throw(_('Unsupported target doctype: {0}').format(target_doctype))
+
     job = frappe.get_doc("Job Record", job_record_id)
     if not job.items:
         return []
 
-    po_names = frappe.get_all("Purchase Order", {
-        "custom_job_record": job_record_id,
+    # Determine target doc's link field to Job Record
+    link_field = "custom_job_record"
+
+    # Get existing documents linked to this Job Record
+    existing_docs = frappe.get_all(target_doctype, {
+        link_field: job_record_id,
         "docstatus": 1
     }, pluck="name")
 
-    ordered_qty = {}
-    if po_names:
-        po_items = frappe.get_all("Purchase Order Item", {
-            "parent": ["in", po_names]
-        }, ["item_code", "qty"])
+    # Figure out child table name
+    child_table_map = {
+        "Purchase Order": "Purchase Order Item",
+        "Purchase Invoice": "Purchase Invoice Item",
+        "Sales Order": "Sales Order Item",
+        "Sales Invoice": "Sales Invoice Item"
+    }
 
-        for row in po_items:
+    item_field_map = {
+        "item_code": "item_code",
+        "qty": "qty"
+    }
+
+    item_table = child_table_map.get(target_doctype)
+    if not item_table:
+        frappe.throw(_('Unknown child table for {0}').format(target_doctype))
+
+    ordered_qty = {}
+
+    if existing_docs:
+        item_rows = frappe.get_all(item_table, {
+            "parent": ["in", existing_docs]
+        }, [item_field_map["item_code"], item_field_map["qty"]])
+
+        for row in item_rows:
             ordered_qty[row.item_code] = ordered_qty.get(row.item_code, 0) + row.qty
 
     remaining_items = []
@@ -219,10 +252,11 @@ def get_remaining_items_from_job(job_record_id):
             remaining_items.append({
                 "item_code": row.item,
                 "item_name": row.item_name,
+                # "description": row.description,
                 "qty": remaining,
                 "uom": row.uom,
-                "rate": row.rate,
-                # "schedule_date": frappe.utils.today(),
+                # "rate": row.rate,
+                # "schedule_date": today(),
                 # "warehouse": "Stores - " + frappe.db.get_value("Company", job.company, "abbr")
             })
 
