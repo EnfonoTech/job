@@ -16,7 +16,9 @@
   "valuation_amount",
   "column_break_mmuo",
   "rate",
-  "amount"
+  "amount",
+  "section_break_jqgs",
+  "profit"
  ],
  "fields": [
   {
@@ -83,13 +85,23 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Amount"
+  },
+  {
+   "fieldname": "section_break_jqgs",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "profit",
+   "fieldtype": "Currency",
+   "label": "Profit",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-06-06 12:48:20.491175",
+ "modified": "2025-06-09 14:17:58.272116",
  "modified_by": "Administrator",
  "module": "Pcc",
  "name": "Job Item Detail",

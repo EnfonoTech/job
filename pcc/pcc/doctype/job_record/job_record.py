@@ -8,6 +8,7 @@ from frappe.model.document import Document
 class JobRecord(Document):
 	def validate(self):
 		total_value = 0
+		item_profit = 0
 		for row in self.items:
 			if not row.item:
 				continue
@@ -15,17 +16,22 @@ class JobRecord(Document):
 			if self.get_valuation_rate_from == "Latest Purchase":
 				row.valuation_rate = get_latest_purchase_rate(row.item)
 				row.valuation_amount = row.quantity * row.valuation_rate
+				row.profit = row.amount - row.valuation_amount
 
 			elif self.get_valuation_rate_from == "Stock Ledger":
 				row.valuation_rate = get_stock_valuation_rate(row.item)
 				row.valuation_amount = row.quantity * row.valuation_rate
+				row.profit = row.amount - row.valuation_amount
 
 			else:
 				row.valuation_rate = 0.0
 				row.valuation_amount = row.quantity * row.valuation_rate
+				row.profit = row.amount - row.valuation_amount
 				
 			total_value += row.valuation_amount
+			item_profit += row.profit
 		self.total_valuation = total_value
+		self.item_profit = item_profit
 
 
 def get_latest_purchase_rate(item_code):

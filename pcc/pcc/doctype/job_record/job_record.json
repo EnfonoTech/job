@@ -23,7 +23,8 @@
   "column_break_cpqa",
   "total_valuation",
   "column_break_buku",
-  "total_amount"
+  "total_amount",
+  "item_profit"
  ],
  "fields": [
   {
@@ -130,6 +131,12 @@
    "fieldtype": "Currency",
    "label": "Total Amount",
    "read_only": 1
+  },
+  {
+   "fieldname": "item_profit",
+   "fieldtype": "Currency",
+   "label": "Item Profit",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
@@ -141,16 +148,21 @@
   },
   {
    "group": "Details",
-   "link_doctype": "Purchase Invoice",
+   "link_doctype": "Journal Entry",
    "link_fieldname": "custom_job_record"
   },
   {
-   "group": "Details",
-   "link_doctype": "Journal Entry",
+   "group": "Buying",
+   "link_doctype": "Purchase Order",
+   "link_fieldname": "custom_job_record"
+  },
+  {
+   "group": "Buying",
+   "link_doctype": "Purchase Invoice",
    "link_fieldname": "custom_job_record"
   }
  ],
- "modified": "2025-06-09 11:09:30.218870",
+ "modified": "2025-06-09 15:16:46.712471",
  "modified_by": "Administrator",
  "module": "Pcc",
  "name": "Job Record",
