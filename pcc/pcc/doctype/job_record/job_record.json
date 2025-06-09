@@ -17,7 +17,13 @@
   "customer_name",
   "section_break_azka",
   "get_valuation_rate_from",
-  "items"
+  "items",
+  "section_break_rddd",
+  "total_quantity",
+  "column_break_cpqa",
+  "total_valuation",
+  "column_break_buku",
+  "total_amount"
  ],
  "fields": [
   {
@@ -94,6 +100,36 @@
    "fieldtype": "Table",
    "label": "Items",
    "options": "Job Item Detail"
+  },
+  {
+   "fieldname": "section_break_rddd",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_quantity",
+   "fieldtype": "Float",
+   "label": "Total Quantity",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_cpqa",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_valuation",
+   "fieldtype": "Currency",
+   "label": "Total Valuation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_buku",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Total Amount",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
@@ -114,7 +150,7 @@
    "link_fieldname": "custom_job_record"
   }
  ],
- "modified": "2025-06-06 01:58:40.892839",
+ "modified": "2025-06-09 11:09:30.218870",
  "modified_by": "Administrator",
  "module": "Pcc",
  "name": "Job Record",

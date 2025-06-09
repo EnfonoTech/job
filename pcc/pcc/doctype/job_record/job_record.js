@@ -94,7 +94,20 @@ frappe.ui.form.on("Job Record", {
                 });
             }
         });
-    }
+    },
+
+    update_totals: function (frm) {
+        let total_qty = 0;
+        let total_amt = 0;
+
+        frm.doc.items.forEach(row => {
+            total_qty += flt(row.quantity);
+            total_amt += flt(row.amount);
+        });
+
+        frm.set_value('total_quantity', total_qty);
+        frm.set_value('total_amount', total_amt);
+    },
 });
 
 
@@ -121,6 +134,8 @@ frappe.ui.form.on('Job Item Detail', {
             console.error('Error fetching price:', err);
             frappe.msgprint(__('Error fetching price for item {0}', [row.item]));
         }
+
+        frm.events.update_totals(frm);
     },
 
     quantity: function (frm, cdt, cdn) {
@@ -129,6 +144,8 @@ frappe.ui.form.on('Job Item Detail', {
         if (row.quantity && row.rate) {
             frappe.model.set_value(cdt, cdn, "amount", row.quantity * row.rate)
         }
+
+        frm.events.update_totals(frm);
         
     },
 
@@ -138,7 +155,13 @@ frappe.ui.form.on('Job Item Detail', {
         if (row.quantity && row.rate) {
             frappe.model.set_value(cdt, cdn, "amount", row.quantity * row.rate)
         }
+
+        frm.events.update_totals(frm);
         
     },
+
+    items_remove: function (frm) {
+        frm.events.update_totals(frm);
+    }
 });
 
