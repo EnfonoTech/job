@@ -189,3 +189,41 @@ def make_journal_entry(expense_request):
 
         je.insert()
         je.submit()
+
+
+@frappe.whitelist()
+def get_remaining_items_from_job(job_record_id):
+    job = frappe.get_doc("Job Record", job_record_id)
+    if not job.items:
+        return []
+
+    po_names = frappe.get_all("Purchase Order", {
+        "custom_job_record": job_record_id,
+        "docstatus": 1
+    }, pluck="name")
+
+    ordered_qty = {}
+    if po_names:
+        po_items = frappe.get_all("Purchase Order Item", {
+            "parent": ["in", po_names]
+        }, ["item_code", "qty"])
+
+        for row in po_items:
+            ordered_qty[row.item_code] = ordered_qty.get(row.item_code, 0) + row.qty
+
+    remaining_items = []
+    for row in job.items:
+        already_ordered = ordered_qty.get(row.item, 0)
+        remaining = row.quantity - already_ordered
+        if remaining > 0:
+            remaining_items.append({
+                "item_code": row.item,
+                "item_name": row.item_name,
+                "qty": remaining,
+                "uom": row.uom,
+                "rate": row.rate,
+                # "schedule_date": frappe.utils.today(),
+                # "warehouse": "Stores - " + frappe.db.get_value("Company", job.company, "abbr")
+            })
+
+    return remaining_items
