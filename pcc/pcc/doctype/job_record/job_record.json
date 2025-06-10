@@ -142,7 +142,12 @@
  "index_web_pages_for_search": 1,
  "links": [
   {
-   "group": "Details",
+   "group": "Selling",
+   "link_doctype": "Sales Order",
+   "link_fieldname": "custom_job_record"
+  },
+  {
+   "group": "Selling",
    "link_doctype": "Sales Invoice",
    "link_fieldname": "custom_job_record"
   },
@@ -162,7 +167,7 @@
    "link_fieldname": "custom_job_record"
   }
  ],
- "modified": "2025-06-09 15:16:46.712471",
+ "modified": "2025-06-10 11:00:01.591724",
  "modified_by": "Administrator",
  "module": "Pcc",
  "name": "Job Record",
