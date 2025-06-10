@@ -24,7 +24,11 @@
   "total_valuation",
   "column_break_buku",
   "total_amount",
-  "item_profit"
+  "item_profit",
+  "section_break_wsep",
+  "column_break_hdir",
+  "expenses",
+  "total_expense"
  ],
  "fields": [
   {
@@ -137,6 +141,27 @@
    "fieldtype": "Currency",
    "label": "Item Profit",
    "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_wsep",
+   "fieldtype": "Section Break",
+   "label": "Other Expenses"
+  },
+  {
+   "fieldname": "column_break_hdir",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "expenses",
+   "fieldtype": "Table",
+   "label": "Expenses",
+   "options": "Job Expense Detail"
+  },
+  {
+   "fieldname": "total_expense",
+   "fieldtype": "Currency",
+   "label": "Total Expense"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -149,6 +174,11 @@
   {
    "group": "Selling",
    "link_doctype": "Sales Invoice",
+   "link_fieldname": "custom_job_record"
+  },
+  {
+   "group": "Details",
+   "link_doctype": "Expense Entry",
    "link_fieldname": "custom_job_record"
   },
   {
@@ -167,7 +197,7 @@
    "link_fieldname": "custom_job_record"
   }
  ],
- "modified": "2025-06-10 11:00:01.591724",
+ "modified": "2025-06-10 13:01:37.515047",
  "modified_by": "Administrator",
  "module": "Pcc",
  "name": "Job Record",
