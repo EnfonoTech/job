@@ -261,3 +261,22 @@ def get_remaining_items_from_job(job_record_id, target_doctype):
             })
 
     return remaining_items
+
+
+@frappe.whitelist()
+def get_expense_entries_for_job(job_record_id):
+    expense_entries = frappe.get_all(
+        "Expense Entry",
+        filters={"custom_job_record": job_record_id, "docstatus": 1, "status": "Approved"},
+        fields=["name", "total"]
+    )
+
+    data = []
+    for entry in expense_entries:
+        data.append({
+            "reference_doctype": "Expense Entry",
+            "reference_record": entry.name,
+            "amount": entry.total,
+        })
+
+    return data

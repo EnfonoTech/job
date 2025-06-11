@@ -4,6 +4,42 @@
 frappe.ui.form.on("Job Record", {
     refresh: function (frm) {
         frm.events.set_dashboard_indicators(frm);
+
+        if (!frm.is_new()) {
+            // First check if "Expense Entry" doctype exists
+            frappe.model.with_doctype("Expense Entry", function() {
+                // Doctype exists, proceed with API call
+                frappe.call({
+                    method: "pcc.api.get_expense_entries_for_job",
+                    args: {
+                        job_record_id: frm.doc.name
+                    },
+                    callback: function(r) {
+                        if (r.message) {
+                            let total_expenses = 0;
+                            frm.clear_table("expenses");
+                            r.message.forEach(function(row) {
+                                let child = frm.add_child("expenses");
+                                child.reference_doctype = row.reference_doctype;
+                                child.reference_record = row.reference_record;
+                                child.amount = row.amount;
+                                total_expenses += row.amount;
+                            });
+                            frm.refresh_field("expenses");
+                            frm.set_value("total_expense", total_expenses)
+
+                            setTimeout(function() {
+                                frm.doc.__unsaved = 0;
+                                frm.page.clear_indicator();
+                            }, 100);
+                        }
+                    }
+                });
+            }, function() {
+                // Doctype does not exist
+                frappe.msgprint(__('Expense Entry is not available on this site.'));
+            });
+        }
     },
 
     set_dashboard_indicators: function (frm) {
