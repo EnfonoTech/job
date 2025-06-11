@@ -141,6 +141,12 @@ doc_events = {
     },
     "Purchase Receipt": {
         "on_submit": "pcc.po_hooks.update_job_record_percent"
+    },
+    "Sales Invoice": {
+        "on_submit": "pcc.po_hooks.update_job_record_percent"
+    },
+    "Delivery Note": {
+        "on_submit": "pcc.po_hooks.update_job_record_percent"
     }
 }
 # override_doctype_class = {

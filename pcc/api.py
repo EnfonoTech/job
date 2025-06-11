@@ -298,3 +298,20 @@ def update_percent_purchased(job_record):
         frappe.db.set_value('Job Record', job_record, '_received', percent)
     else:
         frappe.db.set_value('Job Record', job_record, '_received', 0)
+
+
+@frappe.whitelist()
+def update_percent_delivered(job_record):
+    sos = frappe.db.get_all("Sales Order",
+        filters={"custom_job_record": job_record},
+        fields=['name', 'per_delivered'])
+    
+    if len(sos) > 0:
+        percent = 0
+        total = 0
+        for so in sos:
+            total += so['per_delivered']
+        percent = total/len(sos)
+        frappe.db.set_value('Job Record', job_record, '_delivered', percent)
+    else:
+        frappe.db.set_value('Job Record', job_record, '_delivered', 0)

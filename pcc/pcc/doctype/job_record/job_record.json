@@ -57,7 +57,6 @@
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "in_filter": 1,
-   "in_list_view": 1,
    "label": "Series",
    "options": "\nTTRUH\nCCRUH"
   },
@@ -175,6 +174,7 @@
   {
    "fieldname": "_received",
    "fieldtype": "Percent",
+   "in_list_view": 1,
    "label": "% Received",
    "read_only": 1
   },
@@ -185,6 +185,7 @@
   {
    "fieldname": "_delivered",
    "fieldtype": "Percent",
+   "in_list_view": 1,
    "label": "% Delivered",
    "read_only": 1
   }
@@ -222,7 +223,7 @@
    "link_fieldname": "custom_job_record"
   }
  ],
- "modified": "2025-06-11 13:00:57.466647",
+ "modified": "2025-06-11 17:55:26.983783",
  "modified_by": "Administrator",
  "module": "Pcc",
  "name": "Job Record",
