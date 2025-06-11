@@ -255,7 +255,7 @@ def get_remaining_items_from_job(job_record_id, target_doctype):
                 # "description": row.description,
                 "qty": remaining,
                 "uom": row.uom,
-                # "rate": row.rate,
+                "rate": row.rate,
                 # "schedule_date": today(),
                 # "warehouse": "Stores - " + frappe.db.get_value("Company", job.company, "abbr")
             })

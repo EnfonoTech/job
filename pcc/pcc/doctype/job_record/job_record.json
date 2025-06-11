@@ -73,7 +73,8 @@
    "in_filter": 1,
    "in_standard_filter": 1,
    "label": "Customer",
-   "options": "Customer"
+   "options": "Customer",
+   "reqd": 1
   },
   {
    "fieldname": "job_status",
@@ -197,7 +198,7 @@
    "link_fieldname": "custom_job_record"
   }
  ],
- "modified": "2025-06-10 13:01:37.515047",
+ "modified": "2025-06-11 11:14:31.103381",
  "modified_by": "Administrator",
  "module": "Pcc",
  "name": "Job Record",
