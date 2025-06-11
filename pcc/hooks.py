@@ -135,7 +135,13 @@ doctype_js = {
 doc_events = {
 	"Expense Request": {
 		"on_update": "pcc.api.setup"
-	}
+	},
+    "Purchase Invoice": {
+        "on_submit": "pcc.po_hooks.update_job_record_percent"
+    },
+    "Purchase Receipt": {
+        "on_submit": "pcc.po_hooks.update_job_record_percent"
+    }
 }
 # override_doctype_class = {
 #     "Payment Entry": "pcc.overrides.CustomPE"    

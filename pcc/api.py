@@ -280,3 +280,21 @@ def get_expense_entries_for_job(job_record_id):
         })
 
     return data
+
+
+@frappe.whitelist()
+def update_percent_purchased(job_record):
+    #get all POs under this JR
+    pos = frappe.db.get_all("Purchase Order",
+        filters={"custom_job_record": job_record},
+        fields=['name', 'per_received'])
+    
+    if len(pos) > 0:
+        percent = 0
+        total = 0
+        for po in pos:
+            total += po['per_received']
+        percent = total/len(pos)
+        frappe.db.set_value('Job Record', job_record, '_received', percent)
+    else:
+        frappe.db.set_value('Job Record', job_record, '_received', 0)
