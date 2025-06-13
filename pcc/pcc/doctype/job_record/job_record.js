@@ -2,6 +2,29 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Job Record", {
+    onload: function (frm) {
+        if (frm.is_new() && frm.doc.quotation) {
+            frappe.db.get_doc("Quotation", frm.doc.quotation)
+                .then(quotation => {
+                    if (quotation.quotation_to === "Customer") {
+                        frm.set_value("customer", quotation.party_name);
+                    }
+                    frm.clear_table("items");
+                    (quotation.items || []).forEach(q_item => {
+                        let item_row = frm.add_child("items");
+                        item_row.item = q_item.item_code;
+                        item_row.item_name = q_item.item_name;
+                        item_row.uom = q_item.uom;
+                        item_row.quantity = q_item.qty;
+                        item_row.rate = q_item.rate;
+                        item_row.amount = q_item.amount;
+
+                    });
+                    frm.refresh_field("items");
+                    frm.events.update_totals(frm);
+                });
+        }
+    },
     refresh: function (frm) {
         frm.events.set_dashboard_indicators(frm);
 

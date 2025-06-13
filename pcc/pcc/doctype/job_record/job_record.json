@@ -10,6 +10,7 @@
   "naming_series",
   "job_type",
   "job_status",
+  "quotation",
   "column_break_gvrt",
   "date",
   "company",
@@ -98,10 +99,11 @@
    "fieldtype": "Section Break"
   },
   {
+   "default": "Stock Ledger",
    "fieldname": "get_valuation_rate_from",
    "fieldtype": "Select",
    "label": "Get Valuation Rate From",
-   "options": "\nStock Ledger\nLatest Purchase"
+   "options": "Stock Ledger\nLatest Purchase"
   },
   {
    "depends_on": "eval:doc.get_valuation_rate_from;",
@@ -188,6 +190,12 @@
    "in_list_view": 1,
    "label": "% Delivered",
    "read_only": 1
+  },
+  {
+   "fieldname": "quotation",
+   "fieldtype": "Link",
+   "label": "Quotation",
+   "options": "Quotation"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -223,7 +231,7 @@
    "link_fieldname": "custom_job_record"
   }
  ],
- "modified": "2025-06-11 17:55:26.983783",
+ "modified": "2025-06-13 14:54:31.132849",
  "modified_by": "Administrator",
  "module": "Pcc",
  "name": "Job Record",
