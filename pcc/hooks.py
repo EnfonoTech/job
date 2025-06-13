@@ -136,10 +136,16 @@ doc_events = {
 	"Expense Request": {
 		"on_update": "pcc.api.setup"
 	},
+    "Purchase Order": {
+        "on_submit": "pcc.po_hooks.update_job_record_percent"
+    },
     "Purchase Invoice": {
         "on_submit": "pcc.po_hooks.update_job_record_percent"
     },
     "Purchase Receipt": {
+        "on_submit": "pcc.po_hooks.update_job_record_percent"
+    },
+    "Sales Order": {
         "on_submit": "pcc.po_hooks.update_job_record_percent"
     },
     "Sales Invoice": {
