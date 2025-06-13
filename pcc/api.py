@@ -315,3 +315,42 @@ def update_percent_delivered(job_record):
         frappe.db.set_value('Job Record', job_record, '_delivered', percent)
     else:
         frappe.db.set_value('Job Record', job_record, '_delivered', 0)
+
+
+@frappe.whitelist()
+def get_quotations_for_customer(customer):
+    if not customer:
+        return []
+
+    quotations = frappe.get_all("Quotation",
+        filters={
+            "docstatus": 1,
+            "quotation_to": "Customer",
+            "party_name": customer
+        },
+        fields=["name", "grand_total"],
+        order_by="creation desc"
+    )
+    return quotations
+
+
+@frappe.whitelist()
+def get_items_from_multiple_quotations(quotations):
+    import json
+    if isinstance(quotations, str):
+        quotations = json.loads(quotations)
+
+    items = []
+    for quotation in quotations:
+        quotation_doc = frappe.get_doc("Quotation", quotation)
+        for item in quotation_doc.items:
+            items.append({
+                "item_code": item.item_code,
+                "item_name": item.item_name,
+                "uom": item.uom,
+                "qty": item.qty,
+                "rate": item.rate,
+                "amount": item.amount,
+                "parent": quotation_doc.name
+            })
+    return {"items": items}

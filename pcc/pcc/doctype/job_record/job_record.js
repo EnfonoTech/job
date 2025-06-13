@@ -8,6 +8,105 @@ frappe.ui.form.on("Job Record", {
     quotation: function (frm) {
         frm.events.load_quotation(frm);
     },
+
+    customer: function (frm) {
+        if (frm.is_new() && frm.doc.customer) {
+            frm.add_custom_button(__('Get Items from Quotation'), () => {
+                frappe.call({
+                    method: 'pcc.api.get_quotations_for_customer',
+                    args: {
+                        customer: frm.doc.customer
+                    },
+                    callback: function (r) {
+                        const quotations = r.message || [];
+                        if (!quotations.length) {
+                            frappe.msgprint(__('No submitted quotations found for this customer.'));
+                            return;
+                        }
+
+                        const dialog = new frappe.ui.Dialog({
+                            title: __('Select Quotations'),
+                            fields: [
+                                {
+                                    fieldname: 'quotation_table_wrapper',
+                                    fieldtype: 'HTML',
+                                }
+                            ],
+                            primary_action_label: __('Get Items'),
+                            primary_action() {
+                                const selected = Array.from(dialog.$wrapper.find('.quotation-checkbox:checked'))
+                                    .map(el => el.dataset.quotation);
+
+                                if (!selected.length) {
+                                    frappe.msgprint(__('Please select at least one quotation.'));
+                                    return;
+                                }
+
+                                frappe.call({
+                                    method: 'pcc.api.get_items_from_multiple_quotations',
+                                    args: {
+                                        quotations: selected
+                                    },
+                                    callback: function (r) {
+                                        if (r.message && r.message.items) {
+                                            frm.clear_table('items');
+                                            (r.message.items || []).forEach(q_item => {
+                                                let item_row = frm.add_child("items");
+                                                item_row.item = q_item.item_code;
+                                                item_row.item_name = q_item.item_name;
+                                                item_row.uom = q_item.uom;
+                                                item_row.quantity = q_item.qty;
+                                                item_row.rate = q_item.rate;
+                                                item_row.amount = q_item.amount;
+                                                item_row.from_quotation = q_item.parent;
+                                            });
+                                            frm.refresh_field('items');
+                                            frm.events.update_totals(frm);
+                                            dialog.hide();
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                        dialog.show();
+
+                        const table_html = `
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox" id="select-all-quotations" title="Select All" /></th>
+                                        <th>Quotation</th>
+                                        <th>Grand Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${quotations.map(q => `
+                                        <tr>
+                                            <td><input type="checkbox" class="quotation-checkbox" data-quotation="${q.name}"></td>
+                                            <td>${q.name}</td>
+                                            <td style="text-align:right;">${frappe.format(q.grand_total, { fieldtype: 'Currency' })}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `;
+
+                        dialog.fields_dict.quotation_table_wrapper.$wrapper.html(table_html);
+                        dialog.$wrapper.find('#select-all-quotations').on('change', function () {
+                            const checked = $(this).is(':checked');
+                            dialog.$wrapper.find('.quotation-checkbox').prop('checked', checked);
+                        });
+                        dialog.$wrapper.on('change', '.quotation-checkbox', function () {
+                            const total = dialog.$wrapper.find('.quotation-checkbox').length;
+                            const checked = dialog.$wrapper.find('.quotation-checkbox:checked').length;
+                            dialog.$wrapper.find('#select-all-quotations').prop('checked', total === checked);
+                        });
+                    }
+                });
+            });
+        }
+    },
+
     refresh: function (frm) {
         frm.events.set_dashboard_indicators(frm);
 
