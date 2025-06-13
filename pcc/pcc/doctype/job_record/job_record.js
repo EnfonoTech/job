@@ -63,13 +63,13 @@ frappe.ui.form.on("Job Record", {
         }
 
         function process_journal_entries(entries) {
-            var totalDebit = 0;
+            var total = 0;
             if (entries && entries.length > 0) {
                 entries.forEach(function (entry) {
-                    totalDebit += entry.total_debit;
+                    total += entry.total;
                 });
             }
-            return totalDebit;
+            return total;
         }
 
         frappe.call({
@@ -101,12 +101,13 @@ frappe.ui.form.on("Job Record", {
                         frappe.call({
                             method: 'frappe.client.get_list',
                             args: {
-                                doctype: 'Journal Entry',
+                                doctype: 'Expense Entry',
                                 filters: {
                                     custom_job_record: frm.doc.name,
-                                    docstatus: 1
+                                    docstatus: 1,
+                                    status: "Approved"
                                 },
-                                fields: ['total_debit']
+                                fields: ['total']
                             },
                             callback: function (response) {
                                 var journalEntryTotalDebit = process_journal_entries(response.message);
@@ -115,19 +116,21 @@ frappe.ui.form.on("Job Record", {
                                 var profitAndLoss = salesInvoiceTotals.grandTotal - totalExpenses;
 
                                 frm.dashboard.add_indicator(
-                                    __('Total Sales Invoice: {0}', [format_currency(salesInvoiceTotals.grandTotal, frm.doc.currency)]),
+                                    __('Total Sales: {0}', [format_currency(salesInvoiceTotals.grandTotal, frm.doc.currency)]),
                                     'blue'
                                 );
                                 frm.dashboard.add_indicator(
-                                    __('Total Purchase Invoice: {0}', [format_currency(purchaseInvoiceTotals.grandTotal, frm.doc.currency)]),
+                                    __('Total Purchase: {0}', [format_currency(purchaseInvoiceTotals.grandTotal, frm.doc.currency)]),
                                     'orange'
                                 );
                                 frm.dashboard.add_indicator(
-                                    __('Total Journal Entries: {0}', [format_currency(journalEntryTotalDebit, frm.doc.currency)]),
+                                    __('Other Expenses: {0}', [format_currency(journalEntryTotalDebit, frm.doc.currency)]),
                                     'purple'
                                 );
+
+                                let stat = profitAndLoss >= 0 ? 'Profit' : 'Loss'
                                 frm.dashboard.add_indicator(
-                                    __('P&L: {0}', [format_currency(profitAndLoss, frm.doc.currency)]),
+                                    __('{0}: {1}', [stat, format_currency(profitAndLoss, frm.doc.currency)]),
                                     profitAndLoss >= 0 ? 'green' : 'red'
                                 );
                             }
