@@ -5,10 +5,6 @@ frappe.ui.form.on("Job Record", {
     onload: function (frm) {
         frm.events.load_quotation(frm);
     },
-    quotation: function (frm) {
-        frm.events.load_quotation(frm);
-    },
-
     customer: function (frm) {
         if (frm.is_new() && frm.doc.customer) {
             frm.add_custom_button(__('Get Items from Quotation'), () => {
@@ -269,7 +265,7 @@ frappe.ui.form.on("Job Record", {
                         item_row.quantity = q_item.qty;
                         item_row.rate = q_item.rate;
                         item_row.amount = q_item.amount;
-
+                        item_row.from_quotation = q_item.parent;
                     });
                     frm.refresh_field("items");
                     frm.events.update_totals(frm);
