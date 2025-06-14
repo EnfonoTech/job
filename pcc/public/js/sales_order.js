@@ -20,7 +20,7 @@ frappe.ui.form.on('Sales Order', {
                             qty: row.qty,
                             uom: row.uom,
                             rate: row.rate,
-                            amount: row.rate * row.qty
+                            amount: row.amount
                             // schedule_date: row.schedule_date,
                             // warehouse: row.warehouse
                         });
