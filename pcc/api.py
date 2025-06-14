@@ -201,7 +201,7 @@ def get_remaining_items_from_job(job_record_id, target_doctype):
         - 'Sales Order'
         - 'Sales Invoice'
     """
-    if target_doctype not in ['Purchase Order', 'Purchase Invoice', 'Sales Order', 'Sales Invoice']:
+    if target_doctype not in ['Purchase Order', 'Purchase Invoice', 'Sales Order', 'Sales Invoice', 'Quotation']:
         frappe.throw(_('Unsupported target doctype: {0}').format(target_doctype))
 
     job = frappe.get_doc("Job Record", job_record_id)
@@ -222,7 +222,8 @@ def get_remaining_items_from_job(job_record_id, target_doctype):
         "Purchase Order": "Purchase Order Item",
         "Purchase Invoice": "Purchase Invoice Item",
         "Sales Order": "Sales Order Item",
-        "Sales Invoice": "Sales Invoice Item"
+        "Sales Invoice": "Sales Invoice Item",
+        "Quotation": "Quotation Item"
     }
 
     item_field_map = {

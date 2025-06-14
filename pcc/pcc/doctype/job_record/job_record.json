@@ -195,11 +195,17 @@
    "fieldname": "quotation",
    "fieldtype": "Link",
    "label": "Quotation",
-   "options": "Quotation"
+   "options": "Quotation",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [
+  {
+   "group": "Selling",
+   "link_doctype": "Quotation",
+   "link_fieldname": "custom_job_record"
+  },
   {
    "group": "Selling",
    "link_doctype": "Sales Order",
@@ -231,7 +237,7 @@
    "link_fieldname": "custom_job_record"
   }
  ],
- "modified": "2025-06-13 14:54:31.132849",
+ "modified": "2025-06-14 00:31:31.580699",
  "modified_by": "Administrator",
  "module": "Pcc",
  "name": "Job Record",
