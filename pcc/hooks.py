@@ -138,22 +138,34 @@ doc_events = {
 		"on_update": "pcc.api.setup"
 	},
     "Purchase Order": {
-        "on_submit": "pcc.po_hooks.update_job_record_percent"
+        "on_submit": "pcc.po_hooks.update_job_record_percent",
+        "on_cancel": "pcc.po_hooks.update_job_record_percent",
+        "on_amend": "pcc.po_hooks.update_job_record_percent"
     },
     "Purchase Invoice": {
-        "on_submit": "pcc.po_hooks.update_job_record_percent"
+        "on_submit": "pcc.po_hooks.update_job_record_percent",
+        "on_cancel": "pcc.po_hooks.update_job_record_percent",
+        "on_amend": "pcc.po_hooks.update_job_record_percent"
     },
     "Purchase Receipt": {
-        "on_submit": "pcc.po_hooks.update_job_record_percent"
+        "on_submit": "pcc.po_hooks.update_job_record_percent",
+        "on_cancel": "pcc.po_hooks.update_job_record_percent",
+        "on_amend": "pcc.po_hooks.update_job_record_percent"
     },
     "Sales Order": {
-        "on_submit": "pcc.po_hooks.update_job_record_percent"
+        "on_submit": "pcc.po_hooks.update_job_record_percent",
+        "on_cancel": "pcc.po_hooks.update_job_record_percent",
+        "on_amend": "pcc.po_hooks.update_job_record_percent"
     },
     "Sales Invoice": {
-        "on_submit": "pcc.po_hooks.update_job_record_percent"
+        "on_submit": "pcc.po_hooks.update_job_record_percent",
+        "on_cancel": "pcc.po_hooks.update_job_record_percent",
+        "on_amend": "pcc.po_hooks.update_job_record_percent"
     },
     "Delivery Note": {
-        "on_submit": "pcc.po_hooks.update_job_record_percent"
+        "on_submit": "pcc.po_hooks.update_job_record_percent",
+        "on_cancel": "pcc.po_hooks.update_job_record_percent",
+        "on_amend": "pcc.po_hooks.update_job_record_percent"
     }
 }
 # override_doctype_class = {
