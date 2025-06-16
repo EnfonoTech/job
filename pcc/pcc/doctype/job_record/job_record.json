@@ -7,10 +7,10 @@
  "engine": "InnoDB",
  "field_order": [
   "general_section",
-  "naming_series",
   "job_type",
   "job_status",
   "quotation",
+  "customers_purchase_order",
   "column_break_gvrt",
   "date",
   "company",
@@ -55,13 +55,6 @@
    "options": "\nTRANSPORTATION\nCUSTOMS CLEARANCE\nWAREHOUSE"
   },
   {
-   "fieldname": "naming_series",
-   "fieldtype": "Select",
-   "in_filter": 1,
-   "label": "Series",
-   "options": "\nTTRUH\nCCRUH"
-  },
-  {
    "fieldname": "column_break_gvrt",
    "fieldtype": "Column Break"
   },
@@ -92,7 +85,8 @@
    "fetch_from": "customer.customer_name",
    "fieldname": "customer_name",
    "fieldtype": "Data",
-   "label": "Customer Name"
+   "label": "Customer Name",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_azka",
@@ -197,6 +191,11 @@
    "label": "Quotation",
    "options": "Quotation",
    "read_only": 1
+  },
+  {
+   "fieldname": "customers_purchase_order",
+   "fieldtype": "Data",
+   "label": "Customer's Purchase Order"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -237,7 +236,7 @@
    "link_fieldname": "custom_job_record"
   }
  ],
- "modified": "2025-06-14 00:31:31.580699",
+ "modified": "2025-06-17 01:12:46.198095",
  "modified_by": "Administrator",
  "module": "Pcc",
  "name": "Job Record",
