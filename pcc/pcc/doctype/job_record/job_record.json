@@ -10,7 +10,7 @@
   "job_type",
   "job_status",
   "quotation",
-  "customers_purchase_order",
+  "po_no",
   "column_break_gvrt",
   "date",
   "company",
@@ -193,7 +193,7 @@
    "read_only": 1
   },
   {
-   "fieldname": "customers_purchase_order",
+   "fieldname": "po_no",
    "fieldtype": "Data",
    "label": "Customer's Purchase Order"
   }
@@ -236,7 +236,7 @@
    "link_fieldname": "custom_job_record"
   }
  ],
- "modified": "2025-06-17 01:12:46.198095",
+ "modified": "2025-06-17 12:29:37.353447",
  "modified_by": "Administrator",
  "module": "Pcc",
  "name": "Job Record",

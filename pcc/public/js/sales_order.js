@@ -1,6 +1,12 @@
 frappe.ui.form.on('Sales Order', {
     onload: async function (frm) {
         if (frm.is_new() && frm.doc.custom_job_record) {
+            frappe.db.get_value("Job Record", frm.doc.custom_job_record, 'po_no')
+              .then(r=>{
+                if (r.message && r.message.po_no) {
+                    frm.set_value('po_no', r.message.po_no);
+                }
+              })
             try {
                 const r = await frappe.call({
                     method: 'pcc.api.get_remaining_items_from_job',
